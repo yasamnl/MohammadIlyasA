@@ -3,32 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio - Developer & Designer</title>
+  <title>🎓 Portfolio - Developer & Designer</title>
+  
+  <!-- ✅ FAVICON DARI GOOGLE DRIVE -->
+  <!-- Ganti FILE_ID dengan ID gambar Anda -->
+  <link rel="icon" type="image/png" href="http://yasamnl.great-site.net/assets/icon.png">
+  <link rel="apple-touch-icon" href="https://drive.google.com/uc?export=view&id=YOUR_FILE_ID_HERE">
+  
+  <!-- Fallback favicon jika Drive lambat (opsional) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23667eea'/%3E%3Ctext x='50' y='65' font-size='50' text-anchor='middle' fill='white'%3E👨‍💻%3C/text%3E%3C/svg%3E">
+  
+  <!-- Meta Tags untuk SEO & Social Share -->
+  <meta name="description" content="Portfolio Developer & Designer - Mahasiswa Informatika Universitas Wijaya Kusuma Surabaya">
+  <meta name="author" content="@yassamnl">
+  <meta name="keywords" content="portfolio, developer, designer, web development, informatika">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="🎓 Portfolio - Developer & Designer">
+  <meta property="og:description" content="Mahasiswa Informatika passionate dalam web development dan teknologi.">
+  <meta property="og:image" content="https://drive.google.com/uc?export=view&id=YOUR_FILE_ID_HERE">
+  <meta property="og:url" content="https://YOUR_USERNAME.github.io/portfolio/">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="🎓 Portfolio - Developer & Designer">
+  <meta name="twitter:description" content="Mahasiswa Informatika passionate dalam web development dan teknologi.">
+  <meta name="twitter:image" content="https://drive.google.com/uc?export=view&id=YOUR_FILE_ID_HERE">
+  
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       overflow: hidden;
-      background: #f8f9fc;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      margin: 0;
+      padding: 0;
     }
     
+    /* Loading Screen */
     .loader {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 9999;
       transition: opacity 0.5s ease;
+      flex-direction: column;
+      gap: 20px;
     }
     
     .loader.hidden {
@@ -39,6 +64,25 @@
     .loader-content {
       text-align: center;
       color: white;
+    }
+    
+    .loader-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 32px;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
     }
     
     .spinner {
@@ -55,41 +99,195 @@
       to { transform: rotate(360deg); }
     }
     
+    .loader p {
+      font-size: 14px;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+    
+    /* Iframe Container */
     iframe {
       width: 100%;
       height: 100vh;
       border: none;
       display: block;
+      background: #f8f9fc;
+    }
+    
+    /* Error Fallback */
+    .error-fallback {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #f8f9fc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      z-index: 100;
+    }
+    
+    .error-fallback.active {
+      display: flex;
+    }
+    
+    .error-content {
+      max-width: 400px;
+      padding: 32px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+    
+    .error-content .icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    
+    .error-content h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #1a1a2e;
+    }
+    
+    .error-content p {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    
+    .error-content .btn {
+      display: inline-block;
+      padding: 10px 24px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: transform 0.2s;
+    }
+    
+    .error-content .btn:hover {
+      transform: translateY(-2px);
     }
   </style>
 </head>
 <body>
-  <!-- Loading Screen -->
+  <!-- Loading Screen dengan Icon -->
   <div class="loader" id="loader">
+    <div class="loader-icon">👨‍💻</div>
     <div class="loader-content">
       <div class="spinner"></div>
       <p>Loading Portfolio...</p>
     </div>
   </div>
 
+  <!-- Error Fallback -->
+  <div class="error-fallback" id="error-fallback">
+    <div class="error-content">
+      <div class="icon">⚠️</div>
+      <h3>Oops! Ada yang salah</h3>
+      <p>Portfolio sedang dalam perbaikan atau koneksi bermasalah. Silakan coba lagi nanti.</p>
+      <a href="javascript:location.reload()" class="btn">Coba Lagi</a>
+    </div>
+  </div>
+
   <!-- Embed Google Apps Script -->
   <iframe 
-    src="https://script.google.com/macros/s/AKfycbx1E2HUIQ47EBE_9KI0gF7TL4kjY-uI-uwLncJAFUlyZP3Fwa4ix7UoVCEOueP8268-/exec" 
+    src="https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec" 
     id="portfolio-frame"
-    onload="hideLoader()"
+    title="Portfolio - Developer & Designer"
+    loading="lazy"
   ></iframe>
 
   <script>
-    function hideLoader() {
-      setTimeout(function() {
-        document.getElementById('loader').classList.add('hidden');
-      }, 500);
+    // ==================== GOOGLE DRIVE FAVICON HELPER ====================
+    function getDriveFaviconUrl(url) {
+      if (!url) return null;
+      const strUrl = String(url).trim();
+      
+      // Jika sudah direct link
+      if (strUrl.includes('uc?export=view') || strUrl.includes('uc?export=download')) {
+        return strUrl;
+      }
+      
+      // Extract file ID
+      const patterns = [
+        /\/file\/d\/([^\/\?]+)/i,
+        /open\?id=([^&]+)/i,
+        /uc\?id=([^&]+)/i
+      ];
+      
+      for (const pattern of patterns) {
+        const match = strUrl.match(pattern);
+        if (match && match[1]) {
+          return 'https://drive.google.com/uc?export=view&id=' + match[1];
+        }
+      }
+      return strUrl;
     }
 
-    // Fallback jika loading terlalu lama
-    setTimeout(function() {
+    // ==================== LOADER & ERROR HANDLING ====================
+    const loader = document.getElementById('loader');
+    const iframe = document.getElementById('portfolio-frame');
+    const errorFallback = document.getElementById('error-fallback');
+    let loadTimeout;
+
+    function hideLoader() {
+      if (loader) loader.classList.add('hidden');
+    }
+
+    function showError() {
       hideLoader();
+      if (errorFallback) errorFallback.classList.add('active');
+    }
+
+    // Hide loader when iframe loads
+    iframe.addEventListener('load', function() {
+      clearTimeout(loadTimeout);
+      hideLoader();
+    });
+
+    // Show error if loading takes too long (> 10 seconds)
+    loadTimeout = setTimeout(function() {
+      showError();
+    }, 10000);
+
+    // Handle iframe errors
+    iframe.addEventListener('error', function() {
+      showError();
+    });
+
+    // Fallback: hide loader after 5 seconds even if not loaded
+    setTimeout(function() {
+      if (loader && !loader.classList.contains('hidden')) {
+        hideLoader();
+      }
     }, 5000);
+
+    // ==================== DYNAMIC FAVICON (Optional) ====================
+    // Jika ingin ganti favicon dinamis dari Apps Script, uncomment kode bawah:
+    /*
+    window.addEventListener('message', function(event) {
+      // Pastikan pesan dari domain yang trusted
+      if (event.origin.includes('script.google.com')) {
+        const data = event.data;
+        if (data && data.favicon) {
+          const faviconUrl = getDriveFaviconUrl(data.favicon);
+          if (faviconUrl) {
+            // Update all favicon links
+            document.querySelectorAll('link[rel="icon"], link[rel="apple-touch-icon"]').forEach(link => {
+              link.href = faviconUrl;
+            });
+          }
+        }
+      }
+    });
+    */
   </script>
 </body>
 </html>
