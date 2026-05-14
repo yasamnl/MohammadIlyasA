@@ -3,34 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎓 Portfolio - Developer & Designer</title>
-  
-  <!-- ✅ FAVICON DARI GOOGLE DRIVE -->
-  <!-- Ganti FILE_ID dengan ID gambar Anda -->
-  <link rel="icon" type="image/png" href="http://yasamnl.great-site.net/assets/icon.png">
-  <link rel="apple-touch-icon" href="https://drive.google.com/uc?export=view&id=YOUR_FILE_ID_HERE">
-  
-  <!-- Fallback favicon jika Drive lambat (opsional) -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23667eea'/%3E%3Ctext x='50' y='65' font-size='50' text-anchor='middle' fill='white'%3E👨‍💻%3C/text%3E%3C/svg%3E">
-  
-  <!-- Meta Tags untuk SEO & Social Share -->
-  <meta name="description" content="Portfolio Developer & Designer - Mahasiswa Informatika Universitas Wijaya Kusuma Surabaya">
-  <meta name="author" content="@yassamnl">
-  <meta name="keywords" content="portfolio, developer, designer, web development, informatika">
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="🎓 Portfolio - Developer & Designer">
-  <meta property="og:description" content="Mahasiswa Informatika passionate dalam web development dan teknologi.">
-  <meta property="og:image" content="https://drive.google.com/uc?export=view&id=YOUR_FILE_ID_HERE">
-  <meta property="og:url" content="https://YOUR_USERNAME.github.io/portfolio/">
-  
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="🎓 Portfolio - Developer & Designer">
-  <meta name="twitter:description" content="Mahasiswa Informatika passionate dalam web development dan teknologi.">
-  <meta name="twitter:image" content="https://drive.google.com/uc?export=view&id=YOUR_FILE_ID_HERE">
-  
+  <title>Portfolio - Developer & Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
@@ -38,8 +14,6 @@
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       overflow: hidden;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      margin: 0;
-      padding: 0;
     }
     
     /* Loading Screen */
@@ -67,22 +41,12 @@
     }
     
     .loader-icon {
-      width: 64px;
-      height: 64px;
-      border-radius: 16px;
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 16px;
-      font-size: 32px;
-      animation: pulse 2s infinite;
+      animation: pulse 1.5s ease-in-out infinite;
     }
     
     @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
     }
     
     .spinner {
@@ -99,195 +63,223 @@
       to { transform: rotate(360deg); }
     }
     
-    .loader p {
-      font-size: 14px;
-      opacity: 0.9;
+    .loader-text {
+      font-size: 1rem;
       font-weight: 500;
+      opacity: 0.9;
     }
     
-    /* Iframe Container */
+    .loader-subtext {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      margin-top: 4px;
+    }
+    
+    /* Image Placeholder Icons */
+    .image-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea33, #764ba233);
+      color: white;
+    }
+    
+    .image-placeholder .lucide {
+      width: 48px;
+      height: 48px;
+      opacity: 0.8;
+    }
+    
+    .image-placeholder.article { background: linear-gradient(135deg, #3b82f633, #8b5cf633); }
+    .image-placeholder.project { background: linear-gradient(135deg, #10b98133, #3b82f633); }
+    .image-placeholder.karya { background: linear-gradient(135deg, #f59e0b33, #ef444433); }
+    
+    /* Iframe */
     iframe {
       width: 100%;
       height: 100vh;
       border: none;
       display: block;
-      background: #f8f9fc;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
     
-    /* Error Fallback */
-    .error-fallback {
-      display: none;
+    iframe.loaded {
+      opacity: 1;
+    }
+    
+    /* Error State */
+    .error-state {
       position: fixed;
-      inset: 0;
-      background: #f8f9fc;
-      display: flex;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--bg-light, #f8f9fc);
+      display: none;
       align-items: center;
       justify-content: center;
-      text-align: center;
+      flex-direction: column;
+      gap: 20px;
       padding: 20px;
-      z-index: 100;
+      text-align: center;
     }
     
-    .error-fallback.active {
+    .error-state.show {
       display: flex;
     }
     
-    .error-content {
-      max-width: 400px;
-      padding: 32px;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-    }
-    
-    .error-content .icon {
-      font-size: 48px;
+    .error-state .icon {
+      width: 64px;
+      height: 64px;
+      color: #ef4444;
       margin-bottom: 16px;
     }
     
-    .error-content h3 {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: #1a1a2e;
-    }
-    
-    .error-content p {
-      font-size: 14px;
-      color: #64748b;
-      margin-bottom: 20px;
-      line-height: 1.6;
-    }
-    
-    .error-content .btn {
-      display: inline-block;
-      padding: 10px 24px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      text-decoration: none;
-      border-radius: 10px;
-      font-size: 14px;
+    .error-state h3 {
+      font-size: 1.2rem;
       font-weight: 600;
+      color: #1a1a2e;
+      margin-bottom: 8px;
+    }
+    
+    .error-state p {
+      font-size: 0.9rem;
+      color: #64748b;
+      max-width: 400px;
+    }
+    
+    .error-state .btn {
+      margin-top: 16px;
+      padding: 10px 24px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       transition: transform 0.2s;
     }
     
-    .error-content .btn:hover {
+    .error-state .btn:hover {
       transform: translateY(-2px);
+    }
+    
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+      .error-state {
+        background: #1e1e2e;
+      }
+      .error-state h3 {
+        color: #e2e8f0;
+      }
+      .error-state p {
+        color: #a0aec0;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Loading Screen dengan Icon -->
+  <!-- Loading Screen with Icons -->
   <div class="loader" id="loader">
-    <div class="loader-icon">👨‍💻</div>
     <div class="loader-content">
-      <div class="spinner"></div>
-      <p>Loading Portfolio...</p>
+      <div class="loader-icon">
+        <i data-lucide="loader-2" class="lucide spinner"></i>
+      </div>
+      <p class="loader-text">Loading Portfolio...</p>
+      <p class="loader-subtext">Mengambil data dari Google Drive</p>
     </div>
   </div>
 
-  <!-- Error Fallback -->
-  <div class="error-fallback" id="error-fallback">
-    <div class="error-content">
-      <div class="icon">⚠️</div>
-      <h3>Oops! Ada yang salah</h3>
-      <p>Portfolio sedang dalam perbaikan atau koneksi bermasalah. Silakan coba lagi nanti.</p>
-      <a href="javascript:location.reload()" class="btn">Coba Lagi</a>
-    </div>
+  <!-- Error State with Icon -->
+  <div class="error-state" id="error-state">
+    <i data-lucide="alert-circle" class="lucide icon"></i>
+    <h3>Oops! Terjadi kesalahan</h3>
+    <p>Portfolio tidak dapat dimuat. Silakan periksa koneksi internet atau coba refresh halaman.</p>
+    <button class="btn" onclick="location.reload()">
+      <i data-lucide="refresh-ccw" class="lucide" style="width:16px;height:16px"></i>
+      Coba Lagi
+    </button>
   </div>
 
   <!-- Embed Google Apps Script -->
   <iframe 
-    src="https://script.google.com/macros/s/AKfycbx1E2HUIQ47EBE_9KI0gF7TL4kjY-uI-uwLncJAFUlyZP3Fwa4ix7UoVCEOueP8268-/exec" 
+    src="https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec" 
     id="portfolio-frame"
-    title="Portfolio - Developer & Designer"
-    loading="lazy"
+    onload="onFrameLoad()"
+    onerror="onFrameError()"
   ></iframe>
 
   <script>
-    // ==================== GOOGLE DRIVE FAVICON HELPER ====================
-    function getDriveFaviconUrl(url) {
-      if (!url) return null;
-      const strUrl = String(url).trim();
-      
-      // Jika sudah direct link
-      if (strUrl.includes('uc?export=view') || strUrl.includes('uc?export=download')) {
-        return strUrl;
+    // Initialize Lucide icons
+    function initIcons() {
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
       }
+    }
+
+    // Handle iframe load
+    function onFrameLoad() {
+      const loader = document.getElementById('loader');
+      const iframe = document.getElementById('portfolio-frame');
       
-      // Extract file ID
-      const patterns = [
-        /\/file\/d\/([^\/\?]+)/i,
-        /open\?id=([^&]+)/i,
-        /uc\?id=([^&]+)/i
-      ];
+      // Hide loader with delay for smooth transition
+      setTimeout(() => {
+        loader.classList.add('hidden');
+        iframe.classList.add('loaded');
+        initIcons();
+      }, 800);
       
-      for (const pattern of patterns) {
-        const match = strUrl.match(pattern);
-        if (match && match[1]) {
-          return 'https://drive.google.com/uc?export=view&id=' + match[1];
+      // Fallback: hide loader after 10 seconds max
+      setTimeout(() => {
+        if (!loader.classList.contains('hidden')) {
+          loader.classList.add('hidden');
+          iframe.classList.add('loaded');
         }
-      }
-      return strUrl;
+      }, 10000);
     }
 
-    // ==================== LOADER & ERROR HANDLING ====================
-    const loader = document.getElementById('loader');
-    const iframe = document.getElementById('portfolio-frame');
-    const errorFallback = document.getElementById('error-fallback');
-    let loadTimeout;
-
-    function hideLoader() {
-      if (loader) loader.classList.add('hidden');
+    // Handle iframe error
+    function onFrameError() {
+      const loader = document.getElementById('loader');
+      const errorState = document.getElementById('error-state');
+      
+      loader.classList.add('hidden');
+      errorState.classList.add('show');
+      initIcons();
     }
 
-    function showError() {
-      hideLoader();
-      if (errorFallback) errorFallback.classList.add('active');
-    }
-
-    // Hide loader when iframe loads
-    iframe.addEventListener('load', function() {
-      clearTimeout(loadTimeout);
-      hideLoader();
-    });
-
-    // Show error if loading takes too long (> 10 seconds)
-    loadTimeout = setTimeout(function() {
-      showError();
-    }, 10000);
-
-    // Handle iframe errors
-    iframe.addEventListener('error', function() {
-      showError();
-    });
-
-    // Fallback: hide loader after 5 seconds even if not loaded
-    setTimeout(function() {
-      if (loader && !loader.classList.contains('hidden')) {
-        hideLoader();
-      }
-    }, 5000);
-
-    // ==================== DYNAMIC FAVICON (Optional) ====================
-    // Jika ingin ganti favicon dinamis dari Apps Script, uncomment kode bawah:
-    /*
-    window.addEventListener('message', function(event) {
-      // Pastikan pesan dari domain yang trusted
-      if (event.origin.includes('script.google.com')) {
-        const data = event.data;
-        if (data && data.favicon) {
-          const faviconUrl = getDriveFaviconUrl(data.favicon);
-          if (faviconUrl) {
-            // Update all favicon links
-            document.querySelectorAll('link[rel="icon"], link[rel="apple-touch-icon"]').forEach(link => {
-              link.href = faviconUrl;
-            });
+    // Fallback timeout
+    setTimeout(() => {
+      const loader = document.getElementById('loader');
+      const iframe = document.getElementById('portfolio-frame');
+      
+      if (!loader.classList.contains('hidden') && iframe.readyState !== 'complete') {
+        // Check if iframe is actually loaded
+        try {
+          if (iframe.contentDocument) {
+            onFrameLoad();
           }
+        } catch (e) {
+          onFrameError();
         }
       }
+    }, 15000);
+
+    // Initialize on page load
+    window.addEventListener('load', () => {
+      initIcons();
     });
-    */
+
+    // Handle visibility change (tab switch)
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        initIcons();
+      }
+    });
   </script>
 </body>
 </html>
